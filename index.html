@@ -11,7 +11,8 @@
   <h1>Password Strength Checker</h1>
 </div>
 <div class="container">
-  <input id="username" type="text" placeholder="Enter username" autocomplete="username">    
+  <input id="username" type="text" placeholder="Enter username" autocomplete="username">
+  <input id="email" type="email" placeholder="Enter email id" autocomplete="email">  
   <input id="password" type="password" placeholder="Enter password" autocomplete="new-password">
   <input id="confirm-password" type="password" placeholder="Confirm password" autocomplete="new-password">
 
@@ -48,99 +49,119 @@
   </ul>
 </div>
 <script>
-  let generatedCode = "";
+let generatedCode = "";
 
-  function togglePasswordVisibility() {
-    const pass = document.getElementById("password");
-    const confirm = document.getElementById("confirm-password");
-    const toggle = document.getElementById("toggle-visibility");
-    const isHidden = pass.type === "password";
-    pass.type = confirm.type = isHidden ? "text" : "password";
-    toggle.innerHTML = isHidden ? "<strike>&#128065;</strike>" : "&#128065;";
+function togglePasswordVisibility() {
+  const pass = document.getElementById("password");
+  const confirm = document.getElementById("confirm-password");
+  const toggle = document.getElementById("toggle-visibility");
+  const isHidden = pass.type === "password";
+  pass.type = confirm.type = isHidden ? "text" : "password";
+  toggle.innerHTML = isHidden ? "<strike>&#128065;</strike>" : "&#128065;";
+}
+
+function trigger2FA() {
+  const email = document.getElementById("email").value.trim();
+  if (!email) {
+    alert("Enter your email/username first");
+    return;
   }
 
-  function trigger2FA() {
-    generatedCode = Math.floor(100000 + Math.random() * 900000).toString();
-    document.getElementById("forgot-section").style.display = "block";
-    document.getElementById("code-display").textContent = generatedCode;
-    document.getElementById("verify-result").textContent = "";
-    document.getElementById("verify-code").value = "";
+  generatedCode = Math.floor(100000 + Math.random() * 900000).toString();
+  document.getElementById("forgot-section").style.display = "block";
+  document.getElementById("verify-result").textContent = "";
+  document.getElementById("verify-code").value = "";
+
+  emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", {
+    to_email: email,
+    otp: generatedCode
+  });
+}
+
+function verify2FA() {
+  const inputCode = document.getElementById("verify-code").value.trim();
+  const message = document.getElementById("verify-result");
+  if (inputCode === generatedCode) {
+    message.style.color = "#008800";
+    message.textContent = "2FA verification successful. You may reset your password.";
+  } else {
+    message.style.color = "#cc0000";
+    message.textContent = "Incorrect code. Please try again.";
   }
+}
 
-  function verify2FA() {
-    const inputCode = document.getElementById("verify-code").value.trim();
-    const message = document.getElementById("verify-result");
-    if (inputCode === generatedCode) {
-      message.style.color = "#008800";
-      message.textContent = "2FA verification successful. You may reset your password.";
-    } else {
-      message.style.color = "#cc0000";
-      message.textContent = "Incorrect code. Please try again.";
-    }
+function hasRepeatedChars(str, len = 3) {
+  for (let i = 0; i <= str.length - len; i++) {
+    const seg = str.slice(i, i + len);
+    if (seg.split("").every(c => c === seg[0])) return true;
   }
+  return false;
+}
 
-  function hasRepeatedChars(str, len = 3) {
-    for (let i = 0; i <= str.length - len; i++) {
-      const seg = str.slice(i, i + len);
-      if (seg.split('').every(c => c === seg[0])) return true;
-    }
-    return false;
+function hasReverseSequence(str) {
+  for (let i = 0; i < str.length - 2; i++) {
+    const a = str.charCodeAt(i);
+    const b = str.charCodeAt(i + 1);
+    const c = str.charCodeAt(i + 2);
+    if (a - 1 === b && b - 1 === c) return true;
   }
+  return false;
+}
 
-  function checkPassword() {
-    const username = document.getElementById("username").value.trim();
-    const password = document.getElementById("password").value;
-    const confirm = document.getElementById("confirm-password").value;
-    const result = document.getElementById("result");
-    const meter = document.getElementById("strength-meter-fill");
+function checkPassword() {
+  const username = document.getElementById("username").value.trim();
+  const password = document.getElementById("password").value;
+  const confirm = document.getElementById("confirm-password").value;
+  const result = document.getElementById("result");
+  const meter = document.getElementById("strength-meter-fill");
 
-    result.style.color = "#555";
-    meter.style.width = "0%";
-    meter.style.background = "#999";
+  result.style.color = "#555";
+  meter.style.width = "0%";
+  meter.style.background = "#999";
 
-    const errors = [];
-    if (!username) errors.push("Username cannot be empty.");
-    if (password.toLowerCase().includes(username.toLowerCase())) errors.push("Don't use your username in password.");
-    if (!password) errors.push("Please enter a password.");
-    if (!confirm) errors.push("Please confirm your password.");
-    if (password.length < 8 || password.length > 32)
-      errors.push("Password must be between 8 and 32 characters.");
-    if (!/[a-z]/.test(password)) errors.push("Add at least one lowercase letter in the password.");
-    if (!/[A-Z]/.test(password)) errors.push("Add at least one uppercase letter in the password.");
-    if (!/[0-9]/.test(password)) errors.push("Add at least one digit.");
+  const errors = [];
+  if (!username) errors.push("Username cannot be empty.");
+  if (password.toLowerCase().includes(username.toLowerCase())) errors.push("Don't use your username in password.");
+  if (!password) errors.push("Please enter a password.");
+  if (!confirm) errors.push("Please confirm your password.");
+  if (password.length < 8 || password.length > 32) errors.push("Password must be between 8 and 32 characters.");
+  if (!/[a-z]/.test(password)) errors.push("Add at least one lowercase letter.");
+  if (!/[A-Z]/.test(password)) errors.push("Add at least one uppercase letter.");
+  if (!/[0-9]/.test(password)) errors.push("Add at least one digit.");
 
-    const specialCount = new Set([...password].filter(ch => /[^a-zA-Z0-9]/.test(ch))).size;
-    if (specialCount < 2) errors.push("Add at least two different special symbols.");
-    if (/\s/.test(password)) errors.push("No whitespace allowed.");
-    if (hasRepeatedChars(password)) errors.push("Avoid repeated characters.");
-    if (/(abc|bcd|cde|123|234|345|456|567|678|789)/i.test(password)) errors.push("Avoid sequential patterns.");
-    if (password !== confirm) errors.push("Passwords do not match.");
+  const specialCount = new Set([...password].filter(ch => /[^a-zA-Z0-9]/.test(ch))).size;
+  if (specialCount < 2) errors.push("Add at least two different special symbols.");
+  if (/\s/.test(password)) errors.push("No whitespace allowed.");
+  if (hasRepeatedChars(password)) errors.push("Avoid repeated characters.");
+  if (hasReverseSequence(password)) errors.push("Avoid reverse sequences like cba or 321.");
+  if (password !== confirm) errors.push("Passwords do not match.");
 
-    const score = [
-      password.length >= 8 && password.length <= 32,
-      /[a-z]/.test(password),
-      /[A-Z]/.test(password),
-      /[0-9]/.test(password),
-      specialCount >= 2,
-      !/\s/.test(password),
-      !hasRepeatedChars(password),
-      !/(abc|bcd|cde|123|234|345|456|567|678|789)/i.test(password),
-      !password.toLowerCase().includes(username.toLowerCase()),
-      password === confirm
-    ].filter(Boolean).length;
+  const score = [
+    password.length >= 8 && password.length <= 32,
+    /[a-z]/.test(password),
+    /[A-Z]/.test(password),
+    /[0-9]/.test(password),
+    specialCount >= 2,
+    !/\s/.test(password),
+    !hasRepeatedChars(password),
+    !hasReverseSequence(password),
+    !password.toLowerCase().includes(username.toLowerCase()),
+    password === confirm
+  ].filter(Boolean).length;
 
-    const colors = ["#FF0000", "#FF4C00", "#FF8C00", "#FFBF00", "#FFFF00", "#BFFF00", "#80FF00", "#40FF00", "#00FF00", "#00BB00", "#008800"];
-    meter.style.width = (score * 10) + "%";
-    meter.style.background = colors[score];
+  const colors = ["#FF0000", "#FF4C00", "#FF8C00", "#FFBF00", "#FFFF00", "#BFFF00", "#80FF00", "#40FF00", "#00FF00", "#00BB00", "#008800"];
+  meter.style.width = score * 10 + "%";
+  meter.style.background = colors[score];
 
-    if (errors.length) {
-      result.style.color = "#AA0000";
-      result.textContent = errors.join("\n");
-    } else {
-      result.style.color = "#008800";
-      result.textContent = "Your Password is strong.";
-    }
+  if (errors.length) {
+    result.style.color = "#AA0000";
+    result.innerHTML = errors.join("<br>");
+  } else {
+    result.style.color = "#008800";
+    result.textContent = "Your Password is strong.";
   }
+}
+
 </script>
 </body>
 </html>
