@@ -48,6 +48,10 @@
     <li>Passwords must match (confirmation field)</li>
   </ul>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+<script>
+  emailjs.init("YOUR_PUBLIC_KEY"); // Replace with EmailJS public key
+</script>
 <script>
 let generatedCode = "";
 
@@ -63,7 +67,7 @@ function togglePasswordVisibility() {
 function trigger2FA() {
   const email = document.getElementById("email").value.trim();
   if (!email) {
-    alert("Enter your email/username first");
+    alert("Enter your email first");
     return;
   }
 
@@ -75,6 +79,11 @@ function trigger2FA() {
   emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", {
     to_email: email,
     otp: generatedCode
+  }).then(() => {
+    alert("OTP sent to your email (demo)!");
+  }).catch((err) => {
+    alert("Error sending email. Make sure you configured EmailJS correctly.");
+    console.error(err);
   });
 }
 
