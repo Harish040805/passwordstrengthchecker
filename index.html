@@ -11,9 +11,9 @@
   <h1>Password Strength Checker</h1>
 </div>
 <div class="container">
-  <input id="username" type="text" placeholder="Enter username" autocomplete="username">
-  <input id="password" type="password" placeholder="Enter password" autocomplete="new-password">
-  <input id="confirm-password" type="password" placeholder="Confirm password" autocomplete="new-password">
+  <input id="username" type="text" placeholder="Enter username" autocomplete="username" oncopy="return false" oncut="return false">
+  <input id="password" type="password" placeholder="Enter password" autocomplete="new-password" oncopy="return false" oncut="return false">
+  <input id="confirm-password" type="password" placeholder="Confirm password" autocomplete="new-password" oncopy="return false" oncut="return false">
 
 <div class="button-row">
     <button id="toggle-visibility" onclick="togglePasswordVisibility()">&#128065;</button>
