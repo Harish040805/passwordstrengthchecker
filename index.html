@@ -14,21 +14,17 @@
   <input id="username" type="text" placeholder="Enter username" autocomplete="username" oncopy="return false" oncut="return false">
   <input id="password" type="password" placeholder="Enter password" autocomplete="new-password" oncopy="return false" oncut="return false">
   <input id="confirm-password" type="password" placeholder="Confirm password" autocomplete="new-password" oncopy="return false" oncut="return false">
-
 <div class="button-row">
     <button id="toggle-visibility" onclick="togglePasswordVisibility()">&#128065;</button>
     <button id="check-btn" onclick="checkPassword()">Check Password</button> 
     <button id="forgot-btn" onclick="trigger2FA()">Forgot Password</button>
 </div>
-
   <div id="forgot-section">
     <p>Verification code sent: <strong id="code-display"></strong></p>
     <input id="verify-code" type="number" placeholder="Enter 6-digit code">
     <button onclick="verify2FA()">Verify Code</button>
     <p id="verify-result"></p>
   </div>
-
-  <div id="result"></div>
   <div id="strength-meter">
     <div id="strength-meter-fill"></div>
   </div>
@@ -47,6 +43,7 @@
     <li>Passwords must match (confirmation field)</li>
   </ul>
 </div>
+<div id="instructions"><div id="result"></div></div>
 <script src="passwordstrengthcheckerjs.js"></script>
 </body>
 </html>
