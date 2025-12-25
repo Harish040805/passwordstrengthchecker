@@ -26,9 +26,7 @@
     <button onclick="verify2FA()">Verify Code</button>
     <p id="verify-result"></p>
   </div>
-  <div id="strength-meter">
-    <div id="strength-meter-fill"></div>
-  </div>
+    <div id="result"></div>
 </div>
 <div id="instructions">
   <strong>Password Requirements:</strong>
@@ -43,7 +41,9 @@
     <li>Password must not contain your username</li>
     <li>Passwords must match (confirmation field)</li>
   </ul>
-<div id="result"></div>
+  <div id="strength-meter">
+    <div id="strength-meter-fill"></div>
+  </div>
 </div>
 <script src="passwordstrengthcheckerjs.js"></script>
 </body>
