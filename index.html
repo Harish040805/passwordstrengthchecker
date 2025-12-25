@@ -7,32 +7,52 @@
   <link rel="stylesheet" href="passwordstrengthcheckercss.css">
 </head>
 <body oncopy="return false">
-<div class="container" oncopy="return false">
-  <h1>Password Strength Checker</h1>
-<div class="input-group">
-    <input type="text" id="username" autocomplete="off" placeholder="Enter Username" oncopy="return false">
+<div id="title-bar">
+  <h1>🔒 Password Strength Checker 🔑</h1>
+  <div id="strength-meter">
+    <div id="strength-meter-fill"></div>
+  </div>
 </div>
-<div class="input-group">
-    <input type="email" id="email" autocomplete="off" placeholder="Enter Email ID" oncopy="return false">
+<div id="instructions">
+  <strong>Password Requirements:</strong>
+  <ul>
+    <li>All fields must be filled</li>
+    <li>Email format must be name.surname@gmail.com</li>
+    <li>Minimum 8 and maximum 32 characters</li>
+    <li>At least one lowercase letter (a-z)</li>
+    <li>At least one uppercase letter (A-Z)</li>
+    <li>At least one digit (0-9)</li>
+    <li>At least two different special symbols (e.g. !@#$%^&*)</li>
+    <li>No whitespace characters allowed</li>
+    <li>No sequences or repeated characters (like 'aaaa', '1234', 'abcd')</li>
+    <li>Password must not contain your username</li>
+    <li>Passwords must match (confirmation field)</li>
+  </ul>
 </div>
-<div class="input-group">
-    <input type="password" id="password" autocomplete="off" placeholder="Enter Password" oncopy="return false">
+<div class="container">
+  <input id="username" type="text" placeholder="👤 Enter Username" autocomplete="username" title="Examples: Name">  
+  <input id="email" type="email" placeholder="📧 Enter Email ID" pattern="[a-zA-Z0-9]+(\.[a-zA-Z0-9]+)*@[a-zA-Z0-9]+(\.[a-zA-Z]{2,})+"
+  title="Examples: name@domain.com" autocomplete="email">  
+  <input id="password" type="password" placeholder="✳️ Enter Password" autocomplete="password" title="Password123#$%&*">
+  <input id="confirm-password" type="password" placeholder="✳️ Confirm Password" autocomplete="new-password">
+
+<div class="button-row">
+    <button id="toggle-visibility" onclick="togglePasswordVisibility()">👁️</button>
+    <button id="check-btn" onclick="checkPassword()">Check Password Strength</button> 
+    <button id="forgot-btn" onclick="trigger2FA()">Forget Password (2FA)</button>
+    <button onclick="clearDatabase()">Clear Saved Data</button>
 </div>
-<div class="input-group">
-    <input type="password" id="confirm-password" autocomplete="off" placeholder="Confirm Password" oncopy="return false">
-</div>
-<div id="strength-meter"><div id="strength-meter-fill"></div></div>
-<div id="result"></div>
-<button onclick="checkPassword()">Check Password Strength</button>
-<button id="toggle-visibility" onclick="togglePasswordVisibility()">&#128065;</button>
-<button onclick="trigger2FA()">Forget Password (2FA)</button>
-<div id="forgot-section">
-    <div>Generated Code: <span id="code-display"></span></div>
-    <input type="text" id="verify-code" placeholder="Enter code">
+  <div id="forgot-section">
+    <p>Verification code sent: <strong id="code-display"></strong></p>
+    <input id="verify-code" type="number" placeholder="Enter 6-digit code">
     <button onclick="verify2FA()">Verify Code</button>
-    <div id="verify-result"></div>
+    <p id="verify-result"></p>
+  </div>
 </div>
+<div id="instructions">
+  <div id="result"></div>
 </div>
+<marquee behavior="" direction="left">Password Strength Checker * Cyber Security * Application Security * Harish Creations</marquee>
   <script src="passwordstrengthcheckerjs.js"></script>
 </body>
 </html>
