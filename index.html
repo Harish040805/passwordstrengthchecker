@@ -5,10 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Password Strength Checker</title>
     <link rel="stylesheet" href="passwordstrengthcheckercss.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
 <div id="title-bar">
-  <h1>&#xe897; Password Strength Checker [****]</h1>
+  <h1><i class="fa">&#xf023;</i> Password Strength Checker [****]</h1>
 </div>
 <div class="container">
   <input id="username" type="text" placeholder="Enter username" autocomplete="username" oncopy="return false" oncut="return false">
@@ -42,8 +43,8 @@
     <li>Password must not contain your username</li>
     <li>Passwords must match (confirmation field)</li>
   </ul>
+<div id="result"></div>
 </div>
-<div id="instructions"><div id="result"></div></div>
 <script src="passwordstrengthcheckerjs.js"></script>
 </body>
 </html>
