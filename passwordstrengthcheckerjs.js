@@ -151,7 +151,12 @@ const score = [
   password && confirm && password === confirm
 ].filter(Boolean).length;
 
-    const colors = ["#AA0000", "#FF4C00", "#FF8C00", "#FFBF00", "#FFFF00", "#BFFF00", "#80FF00", "#40FF00", "#00FF00", "#00BB00", "#008800"];
+    const colors = ["#AA0000", "#FF4C00", "#FF4C00", "#FF8C00", "#FF8C00", "#FF8C00", "#FFBF00", "#FFBF00", "#FFBF00",  "#FFBF00",
+                    "#FFFF00", "#FFFF00", "#FFFF00", "#FFFF00", "#FFFF00", "#BFFF00", "#BFFF00", "#BFFF00", "#BFFF00", "#BFFF00", "#BFFF00", 
+                    "#80FF00", "#80FF00", "#80FF00", "#80FF00", "#80FF00", "#80FF00", "#80FF00", "#40FF00", "#40FF00", "#40FF00", "#40FF00", 
+                    "#40FF00", "#40FF00", "#40FF00", "#40FF00", "#00FF00", "#00FF00", "#00FF00", "#00FF00", "#00FF00", "#00FF00", "#00FF00", 
+                    "#00FF00", "#00FF00", "#00BB00", "#00BB00", "#00BB00", "#00BB00", "#00BB00", "#00BB00", "#00BB00", "#00BB00", "#00BB00", "#00BB00", 
+                    "#008800", "#008800", "#008800", "#008800", "#008800", "#008800", "#008800", "#008800", "#008800", "#008800", "#008800"];
     meter.style.width = (score * 10) + "%";
     meter.style.background = colors[score];
 
