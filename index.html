@@ -8,52 +8,33 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
-
 <div id="title-bar">
-  <h1><i class="fa">&#xf023;</i> Password Strength Checker [****]</h1>
-  <div id="strength-meter">
-    <div id="strength-meter-fill"></div>
-  </div>
+  <h1><i class="fa">&#xf023;</i> Password Strength Checker</h1>
+  <div id="strength-meter"><div id="strength-meter-fill"></div></div>
 </div>
 
 <div class="main">
-  <div class="container">
-    <input id="username" type="text" placeholder="Enter username" autocomplete="username">
-    <input id="password" type="password" placeholder="Enter password" autocomplete="new-password">
-    <input id="confirm-password" type="password" placeholder="Confirm password" autocomplete="new-password">
-
-    <div class="button-row">
-      <button id="toggle-visibility" onclick="togglePasswordVisibility()">&#128065;</button>
-      <button id="check-btn" onclick="checkPassword()">Check Password</button>
-      <button id="forgot-btn" onclick="trigger2FA()">Forgot Password</button>
+  <div class="grid">
+    <div class="form-box">
+      <input type="text" placeholder="Enter username">
+      <input type="password" placeholder="Enter password">
+      <input type="password" placeholder="Confirm password">
     </div>
 
-    <div id="forgot-section">
-      <p>Verification code sent: <strong id="code-display"></strong></p>
-      <input id="verify-code" type="number" placeholder="Enter 6-digit code">
-      <button onclick="verify2FA()">Verify Code</button>
-      <p id="verify-result"></p>
+    <div class="req-box">
+      <strong>Password Requirements:</strong>
+      <ul>
+        <li>8–32 characters</li>
+        <li>Uppercase & lowercase letters</li>
+        <li>At least one digit</li>
+        <li>At least two special symbols</li>
+        <li>No spaces or sequences</li>
+        <li>Must not contain username</li>
+        <li>Passwords must match</li>
+      </ul>
     </div>
-
-    <div id="result"></div>
-  </div>
-
-  <div id="instructions">
-    <strong>Password Requirements:</strong>
-    <ul>
-      <li>Minimum 8 and maximum 32 characters</li>
-      <li>At least one lowercase letter</li>
-      <li>At least one uppercase letter</li>
-      <li>At least one digit</li>
-      <li>At least two special symbols</li>
-      <li>No whitespace allowed</li>
-      <li>No sequences or repetitions</li>
-      <li>Must not contain username</li>
-      <li>Passwords must match</li>
-    </ul>
   </div>
 </div>
-
 <script src="passwordstrengthcheckerjs.js"></script>
 </body>
 </html>
