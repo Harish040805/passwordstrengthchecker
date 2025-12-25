@@ -138,33 +138,43 @@ document.querySelectorAll("input").forEach(i=>{
       return;
     }
 
-const score = [
+const totalRules = 10;
+
+const passedRules = [
   password.length >= 8 && password.length <= 32,
   /[a-z]/.test(password),
   /[A-Z]/.test(password),
   /[0-9]/.test(password),
   specialCount >= 2,
   !/\s/.test(password),
-  password && !hasRepeatedChars(password),
-  password && !/(abc|bcd|123|234)/i.test(password),
-  username && !password.toLowerCase().includes(username.toLowerCase()),
-  password && confirm && password === confirm
+  !hasRepeatedChars(password),
+  !/(abc|bcd|cde|123|234|345|456|567|678|789)/i.test(password),
+  !password.toLowerCase().includes(username.toLowerCase()),
+  password === confirm
 ].filter(Boolean).length;
 
-    const colors = ["#AA0000", "#FF4C00", "#FF4C00", "#FF8C00", "#FF8C00", "#FF8C00", "#FFBF00", "#FFBF00", "#FFBF00",  "#FFBF00",
-                    "#FFFF00", "#FFFF00", "#FFFF00", "#FFFF00", "#FFFF00", "#BFFF00", "#BFFF00", "#BFFF00", "#BFFF00", "#BFFF00", "#BFFF00", 
-                    "#80FF00", "#80FF00", "#80FF00", "#80FF00", "#80FF00", "#80FF00", "#80FF00", "#40FF00", "#40FF00", "#40FF00", "#40FF00", 
-                    "#40FF00", "#40FF00", "#40FF00", "#40FF00", "#00FF00", "#00FF00", "#00FF00", "#00FF00", "#00FF00", "#00FF00", "#00FF00", 
-                    "#00FF00", "#00FF00", "#00BB00", "#00BB00", "#00BB00", "#00BB00", "#00BB00", "#00BB00", "#00BB00", "#00BB00", "#00BB00", "#00BB00", 
-                    "#008800", "#008800", "#008800", "#008800", "#008800", "#008800", "#008800", "#008800", "#008800", "#008800", "#008800"];
-    meter.style.width = (score * 10) + "%";
-    meter.style.background = colors[score];
+/* 1️⃣ NO INPUT → NO COLOR */
+if (!username && !password && !confirm) {
+  meter.style.width = "0%";
+  meter.style.background = "transparent";
+  result.textContent = "";
+  return;
+}
 
-    if (errors.length) {
-      result.style.color = "#AA0000";
-      result.textContent = errors.join("\n");
-    } else {
-      result.style.color = "#008800";
-      result.textContent = "Your Password is strong.";
-    }
-  }
+const ratio = passedRules / totalRules;
+
+/* 2️⃣ COLOR DECISION */
+let color = "#AA0000"; // red (default)
+
+if (ratio === 1) {
+  color = "#008800"; // green
+} else if (ratio >= 0.75) {
+  color = "#FFFF00"; // yellow
+} else if (ratio >= 0.4) {
+  color = "#FF8C00"; // orange
+} else {
+  color = "#AA0000"; // red
+}
+
+meter.style.width = Math.max(10, ratio * 100) + "%";
+meter.style.background = color;
