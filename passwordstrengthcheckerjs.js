@@ -131,18 +131,25 @@ document.querySelectorAll("input").forEach(i=>{
     if (/(abc|bcd|cde|123|234|345|456|567|678|789)/i.test(password)) errors.push("Avoid sequential patterns.");
     if (password !== confirm) errors.push("Passwords do not match.");
 
-    const score = [
-      password.length >= 8 && password.length <= 32,
-      /[a-z]/.test(password),
-      /[A-Z]/.test(password),
-      /[0-9]/.test(password),
-      specialCount >= 2,
-      !/\s/.test(password),
-      !hasRepeatedChars(password),
-      !/(abc|bcd|cde|123|234|345|456|567|678|789)/i.test(password),
-      !password.toLowerCase().includes(username.toLowerCase()),
-      password === confirm
-    ].filter(Boolean).length;
+    if (!password) {
+      meter.style.width = "0%";
+      meter.style.background = colors[0];
+      result.textContent = "";
+      return;
+    }
+
+const score = [
+  password.length >= 8 && password.length <= 32,
+  /[a-z]/.test(password),
+  /[A-Z]/.test(password),
+  /[0-9]/.test(password),
+  specialCount >= 2,
+  !/\s/.test(password),
+  password && !hasRepeatedChars(password),
+  password && !/(abc|bcd|123|234)/i.test(password),
+  username && !password.toLowerCase().includes(username.toLowerCase()),
+  password && confirm && password === confirm
+].filter(Boolean).length;
 
     const colors = ["#AA0000", "#FF4C00", "#FF8C00", "#FFBF00", "#FFFF00", "#BFFF00", "#80FF00", "#40FF00", "#00FF00", "#00BB00", "#008800"];
     meter.style.width = (score * 10) + "%";
