@@ -1,16 +1,3 @@
-function clearDatabase(){
-  const tx=db.transaction(STORE,"readwrite");
-  const store=tx.objectStore(STORE);
-  store.clear().onsuccess=()=>{
-    document.querySelectorAll("input").forEach(i=>i.value="");
-    const result=document.getElementById("result");
-    if(result){
-      result.style.color="#008800";
-      result.textContent="All saved data cleared successfully.";
-    }
-  };
-}
-
 const DB_NAME="autosaveDB",STORE="inputs";
 let db;
 
@@ -43,6 +30,19 @@ function restoreInputs(){
 
 function isValidEmail(email){
   return /^[a-zA-Z0-9]+(\.[a-zA-Z0-9]+)*@[a-zA-Z0-9]+(\.[a-zA-Z]{2,})+$/.test(email);
+}
+
+function clearDatabase(){
+  const tx=db.transaction(STORE,"readwrite");
+  const store=tx.objectStore(STORE);
+  store.clear().onsuccess=()=>{
+    document.querySelectorAll("input").forEach(i=>i.value="");
+    const result=document.getElementById("result");
+    if(result){
+      result.style.color="#008800";
+      result.textContent="All saved data cleared successfully.";
+    }
+  };
 }
 
 document.querySelectorAll("input").forEach(i=>{
